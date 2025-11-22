@@ -44,8 +44,18 @@ class UserService {
   async getCurrentUser() {
     await this.delay(200)
     
-    // Return first user as "current user" for demo purposes
-    return { ...this.users[0] }
+// Return first user as "current user" for demo purposes with reading lists
+    const user = { ...this.users[0] }
+    
+    // Add reading list counts for demo
+    user.readingListsCount = {
+      total: 4,
+      wantToRead: 2,
+      currentlyReading: 1,
+      favorites: 1
+    }
+    
+    return user
   }
 
   // Follow author

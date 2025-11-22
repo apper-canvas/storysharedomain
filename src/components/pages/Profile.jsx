@@ -109,8 +109,8 @@ const Profile = () => {
     { 
       key: "reading", 
       label: "Reading List", 
-      icon: "Bookmark",
-      count: 0 // Mock data
+icon: "Bookmark",
+      count: user?.readingListsCount?.total || 0
     },
     { 
       key: "following", 
@@ -312,22 +312,69 @@ const Profile = () => {
                 <h2 className="text-xl font-display font-bold text-gray-900">
                   Reading List
                 </h2>
-                <div className="text-sm text-gray-500">
-                  0 stories
+<div className="text-sm text-gray-500">
+                  {user?.readingListsCount?.total || 0} lists
                 </div>
               </div>
               
-              <Empty
-                type="reading"
-                title={isCurrentUser ? "Your reading list is empty" : "Reading list is private"}
-                description={
-                  isCurrentUser 
-                    ? "Discover amazing stories and add them to your reading list"
-                    : "This user's reading list is not public"
-                }
-                actionText="Browse Stories"
-                onAction={() => window.location.href = "/"}
-              />
+              <div className="space-y-4">
+                {isCurrentUser ? (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ApperIcon name="Clock" className="h-4 w-4 text-blue-600" />
+                          <span className="font-medium text-blue-900">Want to Read</span>
+                        </div>
+                        <div className="text-2xl font-bold text-blue-700">
+                          {user?.readingListsCount?.wantToRead || 0}
+                        </div>
+                        <div className="text-sm text-blue-600">stories</div>
+                      </div>
+                      
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ApperIcon name="BookOpen" className="h-4 w-4 text-green-600" />
+                          <span className="font-medium text-green-900">Reading</span>
+                        </div>
+                        <div className="text-2xl font-bold text-green-700">
+                          {user?.readingListsCount?.currentlyReading || 0}
+                        </div>
+                        <div className="text-sm text-green-600">stories</div>
+                      </div>
+                      
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ApperIcon name="Heart" className="h-4 w-4 text-yellow-600" />
+                          <span className="font-medium text-yellow-900">Favorites</span>
+                        </div>
+                        <div className="text-2xl font-bold text-yellow-700">
+                          {user?.readingListsCount?.favorites || 0}
+                        </div>
+                        <div className="text-sm text-yellow-600">stories</div>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center py-8">
+                      <button
+                        onClick={() => window.location.href = "/reading-lists"}
+                        className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        <ApperIcon name="Bookmark" className="h-4 w-4" />
+                        <span>Manage Reading Lists</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <Empty
+                    type="reading"
+                    title="Reading lists are private"
+                    description="This user's reading lists are not public"
+                    actionText="Browse Stories"
+                    onAction={() => window.location.href = "/"}
+                  />
+                )}
+              </div>
             </div>
           )}
 

@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
-import { format } from "date-fns"
-import { toast } from "react-toastify"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import Empty from "@/components/ui/Empty"
-import ApperIcon from "@/components/ApperIcon"
-import Button from "@/components/atoms/Button"
-import Badge from "@/components/atoms/Badge"
-import StoryStats from "@/components/molecules/StoryStats"
-import storyService from "@/services/api/storyService"
-
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { format } from "date-fns";
+import { toast } from "react-toastify";
+import AddToListModal from "@/components/molecules/AddToListModal";
+import storyService from "@/services/api/storyService";
+import ApperIcon from "@/components/ApperIcon";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import Empty from "@/components/ui/Empty";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
+import StoryStats from "@/components/molecules/StoryStats";
 const StoryDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [story, setStory] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [isVoted, setIsVoted] = useState(false)
+const [isVoted, setIsVoted] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
-
+  const [showAddToListModal, setShowAddToListModal] = useState(false)
   const loadStory = async () => {
     if (!id) return
     
@@ -56,9 +56,8 @@ const StoryDetail = () => {
     }
   }
 
-  const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked)
-    toast.success(isBookmarked ? "Removed from reading list" : "Added to reading list")
+const handleBookmark = () => {
+    setShowAddToListModal(true)
   }
 
   const handleFollow = () => {
@@ -172,12 +171,12 @@ const StoryDetail = () => {
                       <span>Vote</span>
                     </Button>
 
-                    <Button
-                      variant={isBookmarked ? "primary" : "secondary"}
+<Button
+                      variant="secondary"
                       onClick={handleBookmark}
                       className="flex items-center space-x-2"
                     >
-                      <ApperIcon name="Bookmark" className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                      <ApperIcon name="Bookmark" className="h-4 w-4" />
                       <span>Add to List</span>
                     </Button>
 
@@ -185,7 +184,7 @@ const StoryDetail = () => {
                       variant={isFollowing ? "primary" : "secondary"}
                       onClick={handleFollow}
                       className="flex items-center space-x-2"
-                    >
+>
                       <ApperIcon name="UserPlus" className="h-4 w-4" />
                       <span>{isFollowing ? "Following" : "Follow"}</span>
                     </Button>
@@ -193,6 +192,16 @@ const StoryDetail = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Add to List Modal */}
+        <AddToListModal
+          isOpen={showAddToListModal}
+          onClose={() => setShowAddToListModal(false)}
+storyId={id}
+          storyTitle={story?.title}
+        />
 
             {/* Stats */}
             <StoryStats story={story} className="mb-8" />

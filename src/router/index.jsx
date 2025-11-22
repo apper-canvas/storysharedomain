@@ -1,6 +1,6 @@
-import { createBrowserRouter } from "react-router-dom"
-import { lazy, Suspense } from "react"
-import Layout from "@/components/organisms/Layout"
+import { createBrowserRouter } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import Layout from "@/components/organisms/Layout";
 
 // Lazy load page components
 const Browse = lazy(() => import("@/components/pages/Browse"))
@@ -12,7 +12,7 @@ const EditStory = lazy(() => import("@/components/pages/EditStory"))
 const Profile = lazy(() => import("@/components/pages/Profile"))
 const Search = lazy(() => import("@/components/pages/Search"))
 const NotFound = lazy(() => import("@/components/pages/NotFound"))
-
+const ReadingLists = lazy(() => import("@/components/pages/ReadingLists"))
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
     <div className="text-center space-y-4">
@@ -41,7 +41,15 @@ const mainRoutes = [
       <Suspense fallback={<LoadingFallback />}>
         <StoryDetail />
       </Suspense>
-    ),
+),
+  },
+  {
+    path: "reading-lists",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <ReadingLists />
+      </Suspense>
+    )
   },
   {
     path: "story/:id/chapter/:chapterId",

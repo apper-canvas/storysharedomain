@@ -1,5 +1,7 @@
-import { Outlet } from "react-router-dom"
-import Header from "@/components/organisms/Header"
+import { Outlet } from "react-router-dom";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Header from "@/components/organisms/Header";
 
 const Layout = () => {
   return (
@@ -8,8 +10,8 @@ const Layout = () => {
       <main>
         <Outlet />
       </main>
-    </div>
-  )
+</div>
+  );
 }
 
-export default Layout
+export default Layout;
