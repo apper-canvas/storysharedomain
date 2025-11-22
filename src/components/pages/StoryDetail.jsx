@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import AddToListModal from "@/components/molecules/AddToListModal";
 import storyService from "@/services/api/storyService";
 import ApperIcon from "@/components/ApperIcon";
 import Loading from "@/components/ui/Loading";
@@ -11,6 +10,7 @@ import Empty from "@/components/ui/Empty";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
 import StoryStats from "@/components/molecules/StoryStats";
+import AddToListModal from "@/components/molecules/AddToListModal";
 const StoryDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -192,18 +192,7 @@ const handleBookmark = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Add to List Modal */}
-        <AddToListModal
-          isOpen={showAddToListModal}
-          onClose={() => setShowAddToListModal(false)}
-storyId={id}
-          storyTitle={story?.title}
-        />
-
-            {/* Stats */}
+{/* Stats */}
             <StoryStats story={story} className="mb-8" />
 
             {/* Description */}
@@ -228,7 +217,7 @@ storyId={id}
                     </span>
                   ))}
                 </div>
-              </div>
+</div>
             )}
           </div>
 
@@ -304,6 +293,14 @@ storyId={id}
             </div>
           </div>
         </div>
+
+        {/* Add to List Modal */}
+        <AddToListModal
+          isOpen={showAddToListModal}
+          onClose={() => setShowAddToListModal(false)}
+          storyId={id}
+          storyTitle={story?.title}
+        />
       </div>
     </div>
   )
